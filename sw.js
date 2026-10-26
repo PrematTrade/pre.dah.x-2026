@@ -1,0 +1,78 @@
+/* DAHAX INTERACTIVE – service worker (generovaný pri builde).
+   Precache: aplikácia, obsah, obrázky → prezentácia ide aj bez internetu.
+   content.json a index.html: najprv sieť, pri výpadku uložená verzia.
+   Písma z Google Fonts sa uložia pri prvom online spustení. */
+const VERSION = "tmavy-2026-10-25";
+const PRECACHE = "dahax-" + VERSION;
+const RUNTIME = "dahax-runtime";
+const FILES = ["./","assets/dahax-upravy-1.css","assets/dahax-upravy-2.css","assets/dahax-upravy-3.css","assets/main-DHX26P05.js","assets/main-FOM7FDNB.css","content/content.json","docs/DAHAX-prezentacia-2026.pdf","docs/bauder/bauder-cennik-2024-cz.pdf","docs/bauder/bauder-fotovolticke-systemy-cz.pdf","docs/bauder/bauder-produkty-na-ploche-strechy-2024-cz.pdf","docs/bauder/bauder-produkty-na-sikme-strechy-2024-cz.pdf","docs/bauder/bauder-vegetacne-strechy-cz.pdf","docs/bauder/baudergreen-dse-20-fv-zelena-strecha-fv-sk.pdf","docs/bauder/bauderpir-fa-g20-prospekt-sk.pdf","docs/bauder/baudertec-dab-letak-03-2026-sk.pdf","docs/bauder/bauderthermoplan-fpo-prospekt-sk.pdf","docs/bauder/ploche-strechy-prehlad-vyrobkov-sk.pdf","docs/bauder/sikme-strechy-prehlad-vyrobkov-sk.pdf","docs/bauder/technicky-list-bauderkarat-05-2026-sk.pdf","docs/bauder/vegetacne-strechy-prehlad-vyrobkov-sk.pdf","docs/bauder/vyhlasenie-o-parametroch-bauderflex-k5e-2026-sk.pdf","docs/hoch-xps/letak-hoch-xps-pl.pdf","docs/hoch-xps/technicky-list-hoch-xps-01-2026-pl.pdf","docs/hoch-xps/technicky-list-hoch-xps-300-w-2026-pl.pdf","docs/hoch-xps/vyhlasenie-o-parametroch-xps-300-pl.pdf","docs/hoch-xps/vyhlasenie-o-parametroch-xps-500-pl.pdf","docs/hoch-xps/vyhlasenie-o-parametroch-xps-700-pl.pdf","docs/holcim/certifikat-1454-cpr-0292-kamenna-vlna.pdf","docs/holcim/epd-environmentalne-vyhlasenie-kamenna-vlna.pdf","docs/holcim/karta-techniczna-holcim-roof-base-30.pdf","docs/holcim/karta-techniczna-holcim-roof-tapered-50.pdf","docs/holcim/karta-techniczna-holcim-roof-top-50.pdf","docs/holcim/vyhlasenie-o-parametroch-dop-pro-facade-35.pdf","docs/holcim/vyhlasenie-o-parametroch-dop-roof-base-30.pdf","docs/holcim/vyhlasenie-o-parametroch-dop-roof-tapered-50.pdf","docs/holcim/vyhlasenie-o-parametroch-dop-roof-top-50.pdf","docs/izovat/epd-izovat-light-25-45-kg-m-en-platne-do-2030.pdf","docs/klimas/eta-13-0107-eco-drive-2026-en.pdf","docs/klimas/eta-18-0817-skrutky-do-dreva-2023-en.pdf","docs/klimas/eta-22-0611-thermodrive-v2-2026-en.pdf","docs/klimas/prezentacia-klimas-kotvenie-etics-en.pdf","docs/klimas/technicky-list-thermodrive-v2-en.pdf","docs/nexler/katalog-asfaltovych-pasov-cz-sk.pdf","docs/paroc/katalog-produktov-pozemne-stavby-2024-de.pdf","docs/paroc/produktovy-list-paroc-was-25-pl.pdf","docs/polyform/balenie-a-doprava-2025.pdf","docs/polyform/katalog-vyrobkov-polyform-04-2024.pdf","docs/polyform/odporucane-pouzitie-tepelnych-a-zvukovych-izolacii.pdf","docs/polyform/technicky-list-eps-100.pdf","docs/polyform/technicky-list-eps-150-neo-sivy.pdf","docs/polyform/technicky-list-eps-70-f-fasada.pdf","docs/polyform/vyhlasenie-o-parametroch-eps-100.pdf","docs/saint-gobain/produktovy-cennik-weber-2026-sk-platny-od-15-5-2026.pdf","docs/saint-gobain/vzorkovnik-fasadnych-omietok-a-naterov-colorline.pdf","docs/styroprofile/vyhlasenie-o-parametroch-profily-ua-sk.pdf","docs/styroprofile/vyhlasenie-o-parametroch-profily-ud-cd-cw-uw-sk.pdf","docs/styrotrade/certifikat-vups-eps-100-cz.pdf","docs/styrotrade/katalog-produktov-styrotrade-2023-cz.pdf","docs/styrotrade/vyhlasenie-o-parametroch-styro-eps-100-cz.pdf","docs/styrotrade/vyhlasenie-o-parametroch-styro-eps-150-cz.pdf","docs/styrotrade/vyhlasenie-o-parametroch-styro-xps-300-hp-l-cz.pdf","docs/styrotrade/vyhlasenie-o-parametroch-styro-xps-300-sp-i-cz.pdf","docs/styrotrade/vyhlasenie-o-parametroch-styrotherm-plus-100-cz.pdf","docs/sucha-vystavba/katalog-produktov-profifix-dk-mont-cz.pdf","docs/sucha-vystavba/katalog-produktov-profifix-en.pdf","docs/sucha-vystavba/katalog-profilov-styroprofile-2023-cz.pdf","docs/sucha-vystavba/priamy-zaves-special-cz.pdf","docs/sucha-vystavba/profifix-novinky-2023-en.pdf","docs/sucha-vystavba/profifix-produkty-s-ochranou-c5-cz.pdf","docs/sucha-vystavba/revizne-dvierka-a-klapky-cz.pdf","docs/synthos/epd-synthos-xps-en.pdf","docs/synthos/europske-technicke-posudenie-eta-19-0250-en.pdf","docs/synthos/katalog-xps-prime-sk.pdf","docs/synthos/osvedcenie-230833a-xps-prime-g.pdf","docs/synthos/osvedcenie-230833c-xps-prime-d.pdf","docs/synthos/prirucka-projektanta-xps-prime-pl.pdf","docs/synthos/technicky-list-synthos-xps-prime-s-pl.pdf","docs/synthos/technicky-list-xps-prime-d-sk-09-2026.pdf","docs/synthos/technicky-list-xps-prime-g-pl.pdf","docs/synthos/technicky-list-xps-prime-s-sk-09-2026.pdf","docs/synthos/vyhlasenie-o-parametroch-xps-prime-d-30-pl.pdf","docs/synthos/vyhlasenie-o-parametroch-xps-prime-g-30-pl.pdf","icons/apple-touch-icon.png","icons/icon-192.png","icons/icon-512.png","icons/icon-maskable-512.png","icons/icon.svg","img/brand/bauder.webp","img/brand/dkmont.webp","img/brand/hoch-xps.webp","img/brand/izovat.webp","img/brand/klimas.webp","img/brand/knauf.webp","img/brand/koda.webp","img/brand/nexler.webp","img/brand/paroc.webp","img/brand/polyform.webp","img/brand/saint-gobain.webp","img/brand/styroprofile.webp","img/brand/styrotrade.webp","img/brand/tile-holcim.webp","img/brand/tile-synthos.webp","img/klimas/banner-drevo.webp","img/klimas/banner-kotvy.webp","img/klimas/banner-ramove.webp","img/klimas/banner-sdk.webp","img/klimas/banner-strechy.webp","img/klimas/kat-01.webp","img/klimas/kat-02.webp","img/klimas/kat-03.webp","img/klimas/kat-04.webp","img/klimas/kat-05.webp","img/klimas/kat-06.webp","img/klimas/kat-07.webp","img/klimas/kat-08.webp","img/klimas/kat-09.webp","img/klimas/kat-10.webp","img/klimas/kat-11.webp","img/klimas/kat-12.webp","img/klimas/kat-13.webp","img/klimas/kat-14.webp","img/klimas/kat-15.webp","img/logo/dahax-ink.svg","img/logo/dahax-mono-white.svg","img/logo/dahax-white.svg","img/photo/hero-bg.webp","img/photo/holcim-roof.webp","img/photo/regal-01.webp","img/photo/regal-02.webp","img/photo/regal-03.webp","img/photo/regal-04.webp","img/photo/regal-05.webp","img/photo/regal-06.webp","img/product/dkmont-profily.webp","img/product/dkmont-zaves-01.webp","img/product/dkmont-zaves-02.webp","img/product/holcim-pro-facade-35.webp","img/product/izovat-fasad.webp","img/product/izovat-strecha-skladba.webp","img/product/klimas-beton.webp","img/product/klimas-kmwht.webp","img/product/klimas-lfmg-10.webp","img/product/klimas-thermodrive-v2-8.webp","img/product/klimas-wkcp.webp","img/product/klimas-wktherm-8s.webp","img/product/polyform-eps.webp","img/product/profifix-skrutky.webp","img/product/styro-xps.webp","img/product/synthos-xps-prime-d.webp","img/product/synthos-xps-prime-g.webp","img/product/synthos-xps-prime-s.webp","img/sortiment/bauder-asfaltove-pasy.webp","img/sortiment/bauder-fpo-folie.webp","img/sortiment/bauder-pir-izolacie.webp","img/sortiment/hoch-xps-200-300.webp","img/sortiment/hoch-xps-500-700.webp","img/sortiment/holcim-balenie.webp","img/sortiment/izovat-podkrovia-a-pricky.webp","img/sortiment/izovat-podlahy.webp","img/sortiment/klimas-thermodrive-v2.webp","img/sortiment/koda-profily-cw.webp","img/sortiment/koda-profily-uw-ud-cd.webp","img/sortiment/nexler-podkladove-pasy.webp","img/sortiment/nexler-specialne-pasy.webp","img/sortiment/nexler-vrchne-pasy.webp","img/sortiment/paroc-etics.webp","img/sortiment/paroc-odvetravane-fasady.webp","img/sortiment/paroc-ploche-strechy.webp","img/sortiment/paroc-stropy-a-konstrukcie.webp","img/sortiment/polyform-spadove-strechy.webp","img/sortiment/polyform-variant-haus.webp","img/sortiment/styroprofile-profily-etics.webp","img/sortiment/styroprofile-rohy-omietky.webp","img/sortiment/styroprofile-sadrokarton.webp","img/sortiment/styrotrade-fasady-etics.webp","img/sortiment/styrotrade-strechy-podlahy.webp","img/sortiment/styrotrade-styro-xps.webp","img/sortiment/styrotrade-styrofloor.webp","img/sortiment/synthos-hrube-dosky-tb.webp","img/sortiment/synthos-pouzitie-a-zataz.webp","img/sortiment/weber-fasadne-omietky.webp","img/sortiment/weber-lepiace-malty-etics.webp","img/sortiment/weber-lepidla-obklady.webp","manifest.webmanifest","vendor/pdfjs/LICENSE.txt","vendor/pdfjs/pdf.min.mjs","vendor/pdfjs/pdf.worker.min.mjs"];
+
+self.addEventListener("install", (e) => {
+  // Katalógy výrobcov (docs/<firma>/) sa ukladajú po jednom – jeden zlyhaný PDF nezablokuje inštaláciu.
+  const isCatalog = (f) => /^docs\/[^/]+\//.test(f);
+  e.waitUntil(
+    caches
+      .open(PRECACHE)
+      .then(async (c) => {
+        await c.addAll(FILES.filter((f) => !isCatalog(f)));
+        await Promise.allSettled(FILES.filter(isCatalog).map((f) => c.add(f)));
+      })
+      .then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener("activate", (e) => {
+  e.waitUntil(
+    caches
+      .keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== PRECACHE && k !== RUNTIME).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
+const networkFirst = async (req) => {
+  const cache = await caches.open(PRECACHE);
+  try {
+    const res = await fetch(req);
+    if (res.ok) cache.put(req, res.clone());
+    return res;
+  } catch {
+    return (await cache.match(req, { ignoreSearch: true })) || (await cache.match("./")) || Response.error();
+  }
+};
+
+const cacheFirst = async (req) => {
+  const hit = await caches.match(req, { ignoreSearch: true });
+  if (hit) return hit;
+  const res = await fetch(req);
+  if (res.ok) (await caches.open(RUNTIME)).put(req, res.clone());
+  return res;
+};
+
+const staleWhileRevalidate = async (req) => {
+  const cache = await caches.open(RUNTIME);
+  const hit = await cache.match(req);
+  const net = fetch(req)
+    .then((res) => {
+      if (res.ok || res.type === "opaque") cache.put(req, res.clone());
+      return res;
+    })
+    .catch(() => hit);
+  return hit || net;
+};
+
+self.addEventListener("fetch", (e) => {
+  const req = e.request;
+  if (req.method !== "GET") return;
+  const url = new URL(req.url);
+  if (url.hostname === "fonts.googleapis.com" || url.hostname === "fonts.gstatic.com") {
+    e.respondWith(staleWhileRevalidate(req));
+    return;
+  }
+  if (url.origin !== location.origin) return;
+  if (req.mode === "navigate" || url.pathname.endsWith("/content/content.json")) {
+    e.respondWith(networkFirst(req));
+    return;
+  }
+  e.respondWith(cacheFirst(req));
+});

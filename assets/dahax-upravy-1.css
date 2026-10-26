@@ -1,0 +1,13 @@
+/* DAHAX – grafické úpravy nad pôvodným buildom (načítava sa po main-*.css). */
+
+/* Doplnkový sortiment: 8 značiek + doplnok v dvoch riadkoch po 5 */
+.sup__grid{grid-template-columns:repeat(5,1fr);gap:16px}
+.sup__logo{padding:18px 24px}
+.sup__cat{padding:14px 18px 18px;min-height:88px}
+.sup__cat b{font-size:21px}
+.sup__cat span{font-size:15px}
+.sup__extra{font-size:21px;line-height:1.18;padding:22px}
+
+/* KLIMAS – dlaždice a banner vedú na web výrobcu */
+.tile__go{position:absolute;top:8px;right:8px;z-index:2;display:grid;place-items:center;width:30px;height:30px;background:var(--red);color:#fff;font:700 17px/1 var(--f-d);box-shadow:0 2px 8px #0000004d}
+.banner__i{cursor:pointer}

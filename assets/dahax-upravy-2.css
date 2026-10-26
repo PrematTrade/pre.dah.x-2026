@@ -1,0 +1,32 @@
+/* DAHAX – jemné línie podľa auditu grafiky 25. 10. 2026 (scripts/auditor/audit-vizual.js).
+   Načítava sa po dahax-upravy-1.css. Pravidlo: neutrálne oddeľovače 1 px, rámčeky tlačidiel 1,5 px,
+   červený akcent 2 px, farebný kód sortimentu a hlavná linka kontaktu 3 px. */
+
+/* Oddeľovače tabuliek, parametrov a hlavičiek firiem – vlasová linka */
+.rows,.spec,.more,.set__card{border-top-width:1px}
+.brand__since,.search{border-bottom-width:1px}
+.logi__cols li{border-top-width:1px}
+.logi__cols li:nth-child(2){border-top-width:2px}
+
+/* Štítok krajín SK | CZ */
+.scope{border-width:1px}
+.scope span+span{border-left-width:1px}
+
+/* Rámčeky tlačidiel a polí */
+.btn,.pinbox{border-width:1.5px}
+.docs__form{border-width:1.5px}
+
+/* Červené akcenty – výrazné, nie ťažké */
+.brand__facts>div,.feat__list,.contact__kv,.firm__docs,.ptile__meta{border-top-width:2px}
+.sup__logo{border-bottom-width:2px}
+.sup__extra{border-left-width:3px}
+.tile{border-bottom-width:3px}
+.contact{border-top-width:3px}
+
+/* Snímka s fotkou a 4+ produktmi (napr. STYROPROFILE – lišty ETICS) – zoznam sa nezmestil, posledný riadok bol orezaný */
+.media__text:has(.rows>li:nth-child(4)){gap:16px}
+.media__text:has(.rows>li:nth-child(4)) .row{min-height:0;padding:8px 4px 8px 0}
+.media__text:has(.rows>li:nth-child(4)) .row__name{font-size:30px}
+
+/* Zdroj pod profilom firmy – zalomiť na dva riadky namiesto orezania „…“ */
+.brand__src{white-space:normal;text-wrap:balance;line-height:1.4}

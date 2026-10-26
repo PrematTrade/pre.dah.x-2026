@@ -1,0 +1,37 @@
+# DAHAX Interactive – nastavenie pre hosting Apache (Websupport).
+# Súbor patrí do toho istého priečinka ako index.html.
+
+# Vždy HTTPS – bez neho sa aplikácia nedá nainštalovať do tabletu ani spustiť offline
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# Správne typy súborov – prehliadač PDF (pdf.min.mjs) sa inak nenačíta
+AddType text/javascript .mjs .js
+AddType application/manifest+json .webmanifest
+AddType image/webp .webp
+AddType image/svg+xml .svg
+AddCharset utf-8 .html .js .mjs .css .json .webmanifest
+
+DirectoryIndex index.html
+Options -Indexes
+
+# Kód a obsah sa vždy overia na serveri (nové verzie sa prejavia hneď),
+# obrázky a PDF sa môžu týždeň držať v pamäti prehliadača
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|js|mjs|css|json|webmanifest)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <FilesMatch "\.(webp|png|svg|pdf)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  Header set X-Robots-Tag "noindex, nofollow"
+  Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/json application/manifest+json image/svg+xml
+</IfModule>

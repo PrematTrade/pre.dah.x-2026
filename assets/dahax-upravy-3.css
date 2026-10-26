@@ -1,0 +1,132 @@
+/* DAHAX – tmavý vzhľad podľa www.dahax.sk (scripts/update-2026-10-25-tmavy.mjs). Načítava sa po dahax-upravy-2.css.
+   Systém: pozadie #000, plochy #0e0f12 / #15171b, vlasové linky biele 12–18 %, text biely,
+   popisy #a3a9b2, akcent červená DAHAX. Biele plochy zostávajú len pod logami a fotkami produktov. */
+
+:root{
+  --bg:#000;
+  --surf:#0e0f12;
+  --surf-2:#15171b;
+  --hair:rgba(255,255,255,.14);
+  --hair-2:rgba(255,255,255,.22);
+  --txt-2:#c9cdd3;
+  --muted-d:#a3a9b2;
+  --off:#000;
+  --line:rgba(255,255,255,.16);
+  --muted:#a3a9b2;
+}
+/* biele karty (logá, fotky produktov, dokumenty) si nechávajú svetlú paletu */
+.pc:not(.pc--dark),.ptile,.sup__i,.ci,.firm,.docs__form,.set__l,.mg__yt input,.ps__img,.media__img.is-white,.row__logo,.scope__role{
+  --muted:#646a75;--line:#dcd8d0;--off:#f4f2ee;
+}
+
+/* ===== Horná lišta a pás značiek ===== */
+.top{background:var(--bg);color:#fff;border-bottom:1px solid var(--hair)}
+.top__brand small{color:#fff;opacity:.78}
+.top__nav button{color:#9ba1aa}
+.top__nav button[aria-current=page]{color:#fff}
+.top__nav button:after{height:2px}
+.status{color:#7fcf98}
+.status.is-off{color:#f0a640}
+.ibtn--ink{color:#fff;border-color:var(--hair-2)}
+.ibtn--ink:active{background:#ffffff14}
+.rail{background:var(--bg);border-left:1px solid var(--hair)}
+.rail__logo{background:#fff;border:0}
+.rail__b{border-width:1.5px}
+.rail__b.is-on:before{width:3px;left:-11.5px}
+.rail__t,.rail__name,.rail__more{color:var(--muted-d)}
+.rail__more{border-color:var(--hair-2)}
+
+/* ===== Plochy snímok ===== */
+.s--dark{background:var(--bg)}
+.s--dark .lead,.s--navy .lead{color:var(--txt-2)}
+
+/* Doprava a sklad */
+.s--dark .logi__cols li{border-top-color:var(--hair-2)}
+.s--dark .logi__cols li:nth-child(2){border-top-color:var(--red)}
+.logi__cols li.is-ink{background:var(--surf-2)}
+
+/* Doplnkový sortiment – dlaždica s doplnkom */
+.sup__extra{background:var(--surf-2);color:#fff;border-left-color:var(--red)}
+.sup__cat{background:var(--surf-2)}
+
+/* Karty produktov – tmavá varianta ako ostatné plochy */
+.pc--dark{background:var(--surf-2)}
+
+/* ===== Snímka výrobcu ===== */
+.brand{background:var(--bg);color:#fff}
+.brand--light .brand__side,.brand--dark .brand__side{background:var(--surf)}
+.brand__side{border-right:1px solid var(--hair)}
+.brand__logo{box-shadow:none}
+.brand--navy .brand__main{background:var(--navy-2)}
+
+.brand__main{padding:48px 64px 30px 64px;gap:0}
+.brand__main>*{flex-shrink:0}
+/* hlavička: rok / krajina vľavo, sídlo vpravo na spoločnej účiarí */
+.brand__since{align-items:flex-end;border-bottom:1px solid var(--hair-2);padding-bottom:20px;margin-bottom:24px}
+.brand__yl{color:var(--muted-d)}
+.brand__where{align-items:center;color:#fff;max-width:420px;text-align:left}
+.brand__where .icon{width:26px;height:26px;flex:none}
+.brand__where em{color:var(--muted-d)}
+
+.brand__about{color:var(--txt-2);font-size:20px;line-height:1.55;max-width:none;margin-bottom:26px;text-wrap:pretty}
+
+/* fakty – tri stĺpce, ktoré určujú mriežku celej snímky */
+.brand__facts{gap:0 32px;margin-bottom:28px}
+.brand__facts>div{border-top:2px solid var(--red);padding-top:16px;align-content:start}
+.brand__facts dt{color:#fff}
+.brand__facts dd{color:var(--muted-d);font-size:15px}
+
+/* Čo vyrába – zoznam v rovnakých troch stĺpcoch ako fakty, bez rámčekov */
+.brand__makes{gap:0}
+.brand__makes .eyebrow,.brand__nav .eyebrow{margin-bottom:12px;color:var(--muted-d)}
+.brand__makes ul{display:grid;grid-template-columns:repeat(3,1fr);gap:0 32px;border-bottom:1px solid var(--hair)}
+.brand__makes li{position:relative;display:flex;align-items:center;min-height:40px;padding:7px 0 7px 20px;background:none;border:0;border-top:1px solid var(--hair);font:600 16px/1.15 var(--f-d);letter-spacing:.05em;color:#e8eaed}
+.brand__makes li:before{content:"";position:absolute;left:0;top:50%;width:8px;height:2px;background:var(--red)}
+
+/* Sortiment v prezentácii – rovnaké dlaždice v pravidelnej mriežke */
+.brand__nav{gap:0}
+.brand__cats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.brand__cats:has(>button:nth-child(2):last-child),.brand__cats:has(>button:nth-child(4):last-child){grid-template-columns:repeat(2,1fr)}
+.brand__cats button{justify-content:flex-start;min-height:56px;padding:0 18px;background:var(--surf-2);border:1px solid var(--hair);font-size:20px}
+.brand__cats button>span:not(.num){flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brand__cats .num{font-size:20px;min-width:28px}
+.brand__cats button:active{background:var(--red);border-color:var(--red)}
+
+/* tlačidlá dokumentov – jeden rad cez celú šírku, bez zalamovania; hlavné červené ako na dahax.sk */
+.brand__btns{display:flex;gap:10px;margin-top:10px}
+.brand__btns .docbtn{flex:1 1 auto;width:auto;white-space:nowrap;justify-content:center;min-height:52px;border:1px solid var(--hair-2);color:#fff}
+.brand__btns .docbtn .icon{color:var(--red-hi)}
+.brand__btns .docbtn--solid{background:var(--red);border-color:var(--red)}
+.brand__btns .docbtn--solid .icon{color:#fff}
+.brand__btns .docbtn--solid b{background:#fff;color:var(--red)}
+
+/* zdroj – v toku pod obsahom, zarovnaný s ľavou hranou */
+.brand__src{position:static;margin-top:16px;padding-top:12px;border-top:1px solid var(--hair);max-width:none;text-align:left;font-size:12px;line-height:1.45;color:#7d838c}
+
+/* ===== Okná nad snímkami (Katalóg, Dokumenty, detail produktu, nastavenia) ===== */
+.pane,.sheet{background:var(--surf);color:#fff}
+/* detail produktu a texty, ktoré mali napevno tmavú farbu */
+.ps__desc{color:var(--txt-2)}
+.ps__name,.pc__name,.ci__name,.row__name{text-wrap:balance} /* „THERMODRIVE / V2-8“, nie „V2- / 8“ */
+.ps__body .specs,.legend dt{color:#fff}
+.ov .btn--line{border-color:var(--hair-2);color:#fff}
+.docs__kinds button.is-on{background:var(--red);border-color:var(--red)}
+/* biele karty v oknách – tmavý text */
+.ci,.firm,.docs__form,.set__l{color:var(--ink)}
+.ci__docs{background:#fff}
+/* filtre a vyhľadávanie v katalógu */
+.chipsel button{background:var(--surf-2);border-color:var(--hair);color:#e8eaed}
+.chipsel button.is-on{background:var(--red);border-color:var(--red);color:#fff}
+.search{border-bottom:1px solid var(--hair-2)}
+.search input{color:#fff}
+.search input::placeholder{color:#7d838c}
+.keypad button{background:var(--surf-2);color:#fff}
+.ci__tag{background:#f4f2ee;color:var(--ink)}
+/* zoznamy dokumentov – tmavé plochy, logo firmy na bielom štítku */
+.dg{background:var(--surf-2);border-color:var(--hair);color:#fff}
+.doc,.dg .doc{background:var(--surf);border-color:var(--hair);color:#fff}
+.doc__del{background:var(--surf);border-color:var(--hair)}
+.dg__logo{background:#fff}
+
+/* počet dokumentov v zozname produktov – na tmavom svetlejšia červená (kontrast 4,5:1+) */
+.s--dark .rows .pc__docs,.s--navy .rows .pc__docs{color:var(--red-hi)}
